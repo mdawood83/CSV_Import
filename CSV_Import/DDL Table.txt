@@ -1,0 +1,38 @@
+USE NaturalGasDB;
+
+CREATE TABLE Shipment(
+					Loc varchar(40) NOT NULL,
+					Loc_Zn varchar(50) NOT NULL,
+					Loc_Name varchar(100) NOT NULL,
+					Loc_Purp_Desc varchar(40),
+					Loc_QTI varchar(40),
+					Flow_Ind varchar(40),
+					DC varchar(40),
+					OPC varchar(40),
+					TSQ varchar(40),
+					OAC varchar(40),
+					IT varchar(40),
+					Auth_Overrun_Ind varchar(40),
+					Nom_Cap_Exceed_Ind varchar(40),
+					All_Qty_Avail varchar(40),
+					Qty_Reason varchar(40)
+					)
+
+///////////////////////////////////////////////////////
+INSERT Query:
+db = GetConnSetting("NaturalGasDB");
+
+                con = new SqlConnection(db);
+                var query = con.CreateCommand();
+
+                query.CommandText = string.Format("IF NOT EXISTS (SELECT * FROM Shipment WHERE '{0}' IS NOT NULL) INSERT INTO Shipment VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}')",
+                m_Loc, m_Loc_Zn, m_Loc_Name, m_Loc_Purp_Desc, m_Loc_QTI, m_Flow_Ind, m_DC, m_OPC, m_TSQ, m_OAC, m_IT, m_Auth_Overrun_Ind, m_Nom_Cap_Exceed_Ind, m_All_Qty_Avail, m_Qty_Reason);
+
+                con.Open();
+                query.ExecuteNonQuery();
+                con.Close();
+///////////////////////////////////////////////////////
+App.config:
+<connectionStrings>
+    <add name="NaturalGasDB" connectionString="Data Source=.;Initial Catalog=NaturalGasDB;Integrated Security=True" providerName="System.Data.SqlClient" />
+</connectionStrings>
